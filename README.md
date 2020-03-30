@@ -2,6 +2,7 @@
 统一 SQL 排版的相关用法，极大提高编写和维护 SQL 的效率。
 
 ---
+> 注: column = 选取的字段；table = 选取的表名
 ### 语句结构
 错误
 ```
@@ -75,7 +76,7 @@ SELECT table1.column1,table2.column2 FROM table1 LEFT JOIN table2 ON table1.colu
             table1.column1 = table2.column1
 ```
 解析
-> JOIN 后两张表会形成一张新的大表，该大表需要保持缩进来嵌入到上层，同时内部的两种表也要通过缩进保持结构
+> JOIN 后两张表会形成一张新的大表，该大表需要保持缩进来嵌入到上层，同时内部的两种表也要通过缩进维持结构
 
 ### 逗号
 错误
@@ -115,40 +116,40 @@ SELECT concat(column1,column2,column3) FROM table1
 
 ### 举个栗子
 ```
-SELECT L.cloumn1,concat(L.cloumn1,R.cloumn2) FROM (SELECT cloumn1 FROM table1) AS L LEFT JOIN (SELECT cloumn2
-FROM table2) AS R ON L.cloumn3 = R.cloumn3 WHERE L.cloumn1 = 1 AND R.cloumn1 = 2 GROUP BY L.cloumn1,R.cloumn2 
-ORDER BY L.cloumn1,R.cloumn2
+SELECT L.column1,concat(L.column1,R.column2) FROM (SELECT column1 FROM table1) AS L LEFT JOIN (SELECT column2
+FROM table2) AS R ON L.column3 = R.column3 WHERE L.column1 = 1 AND R.column1 = 2 GROUP BY L.column1,R.column2 
+ORDER BY L.column1,R.column2
 ```
 
 ```
     SELECT
-        L.cloumn1
-        ,concat(L.cloumn1,R.cloumn2)
+        L.column1
+        ,concat(L.column1,R.column2)
     FROM
             (
                 SELECT
-                    cloumn1
+                    column1
                 FROM
                     table1
             ) AS L
         LEFT JOIN
             (
                 SELECT
-                    cloumn2
+                    column2
                 FROM
                     table2
             ) AS R
         ON
-            L.cloumn3 = R.cloumn3
+            L.column3 = R.column3
     WHERE
-        L.cloumn1 = 1
-        AND R.cloumn1 = 2
+        L.column1 = 1
+        AND R.column1 = 2
     GROUP BY
-        L.cloumn1
-        ,R.cloumn2
+        L.column1
+        ,R.column2
     ORDER BY
-        L.cloumn1
-        ,R.cloumn2
+        L.column1
+        ,R.column2
 ```
 解析
 > 再复杂的语句也可以通过这样的方式拆分以增加可读性，在后期调试时也十分方便
@@ -157,4 +158,4 @@ ORDER BY L.cloumn1,R.cloumn2
 
 > 知行合一：这个方法可以加深读者对SQL语句的理解，在练习的过程中仔细体会这种树状构，假以时日就可以融会贯通，达到一通百通的层次。
 
-> 学习函数：函数看似纷繁多样，其实基础结构十分简单，所有的函数都是围绕数字，文本，日期这三种数据类型，再辅以一些结构和增删查改的过程来展开。运用函数的过程应该是逻辑上对这三种类型进行运算，通过逻辑去搜索函数，最后组合起来达到想要的目的。so，学习函数的过程就应该是掌握(数字，文本，日期)*增删查改 ，这一表达式的过程。
+> 学习函数：各种函数看似纷繁多样，其实基础结构十分简单，所有的函数都是围绕数字，文本，日期这三种数据类型，再辅以一些结构和增删查改的过程来展开。运用函数的过程就是逻辑上对这三种类型进行运算，再通过逻辑去搜索函数，最后组合起来达到想要目的的过程。so，学习函数就是掌握(数字，文本，日期)*增删查改 ，这一表达式的过程。
