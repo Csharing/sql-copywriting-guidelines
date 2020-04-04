@@ -56,7 +56,7 @@ SELECT L.column1 FROM (SELECT column1 FROM table1 ) as L
         ) as L
 ```
 解析
-> 子查询会成为一个完整的表嵌入到上层的结构中，它的内部又是一个完整的结构体，当然也要使用缩进来定义结构，并且整体要往后缩进一个层次，与上层结构配合。
+> 子查询会成为一个完整的表嵌入到上层的结构中，子查询的内部又是一个完整的结构体，当然也要使用缩进来定义结构，并且整体要往后缩进一个层次，与上层结构配合。
 
 ### 连接
 错误
@@ -86,14 +86,14 @@ SELECT column1,column2,column3 FROM table1
 正确
 ```
     SELECT 
-        column1
+         column1
         ,column2
         ,column3
     FROM 
         table1
 ```
 解析
-> 读者刚开始将逗号前置可能会不太习惯，但这样做会显著的带来两个好处,第一：长的SQL语句往往选取的字段长短不一，若将逗号放在后面，当缺失逗号时很难发现，放在前面就很容易排查，第二：调试 SQL 语句时，注释掉最后一个字段，也可以直接运行，减少出错几率
+> 读者刚开始将逗号前置可能会不太习惯，但这样做会显著的带来两个好处,第一：长的SQL语句往往选取的字段长短不一，若将逗号放在后面，当缺失逗号时很难发现，放在前面就很容易排查，第二：调试 SQL 语句时，注释掉最后一个字段，也可以直接运行，减少调试时间
 
 ### 长函数
 错误
@@ -103,11 +103,9 @@ SELECT concat(column1,column2,column3) FROM table1
 正确
 ```
     SELECT
-        concat(
-            column1
-            ,column2
-            ,column3
-        ) 
+        concat(  column1
+                ,column2
+                ,column3) 
     FROM 
         table1
 ```
@@ -115,27 +113,32 @@ SELECT concat(column1,column2,column3) FROM table1
 > 当长的函数十分复杂时，若没有清晰的结构，很容易写完就忘。本质上函数与函数参数也是呈子母对的性质，那么它们也就具有树状的表达结构，通过缩进形式也可以展现出这种树状结构。
 
 ### 举个栗子
+错误
 ```
-SELECT L.column1,concat(L.column1,R.column2) FROM (SELECT column1 FROM table1) AS L LEFT JOIN (SELECT column2
-FROM table2) AS R ON L.column3 = R.column3 WHERE L.column1 = 1 AND R.column1 = 2 GROUP BY L.column1,R.column2 
-ORDER BY L.column1,R.column2
+SELECT L.column1,R.column2,concat(L.column1,R.column2) FROM (SELECT column1 ,column3FROM table1) AS L LEFT JOIN (SELECT column2,
+column3FROM table2) AS R ON L.column3 = R.column3 WHERE L.column1 = 1 AND R.column1 = 2 GROUP BY L.column1,R.column2 ORDER BY 
+L.column1,R.column2
 ```
-
+正确
 ```
     SELECT
-        L.column1
-        ,concat(L.column1,R.column2)
+         L.column1
+        ,R.column2
+        ,concat(L.column1
+                ,R.column2)
     FROM
             (
                 SELECT
-                    column1
+                     column1
+                    ,column3
                 FROM
                     table1
-            ) AS L
+            ) AS L 
         LEFT JOIN
             (
                 SELECT
-                    column2
+                     column2
+                    ,column3
                 FROM
                     table2
             ) AS R
