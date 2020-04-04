@@ -115,9 +115,9 @@ SELECT concat(column1,column2,column3) FROM table1
 ### 举个栗子
 错误
 ```
-SELECT L.column1,R.column2,concat(L.column1,R.column2) FROM (SELECT column1 ,column3FROM table1) AS L LEFT JOIN (SELECT column2,
-column3FROM table2) AS R ON L.column3 = R.column3 WHERE L.column1 = 1 AND R.column1 = 2 GROUP BY L.column1,R.column2 ORDER BY 
-L.column1,R.column2
+SELECT L.column1,R.column2,concat(L.column1,R.column2) FROM (SELECT column1 ,column3FROM table1) AS L LEFT JOIN 
+(SELECT column2,column3FROM table2) AS R ON L.column3 = R.column3 WHERE L.column1 = 1 AND R.column1 = 2 GROUP 
+BY L.column1,R.column2 ORDER BY L.column1,R.column2
 ```
 正确
 ```
